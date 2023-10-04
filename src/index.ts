@@ -1,17 +1,26 @@
 import express, { Request, Response , Application } from 'express';
-import morgan from 'morgan';
+import bodyParser from 'body-parser'
 import { router } from './routes';
+import morgan from 'morgan';
+import {ValidationError} from "joi";
 
 const app: Application = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3200;
 
 app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
 )
 
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
 app.use('/api/v1', router)
 
 app.use((error: any, req: Request, res: Response, next: Function) => {
+    if (error instanceof ValidationError) {
+        return res.status(422).json({error: error.message || error});
+    }
+
     res.status(error.status || 500).json({error: error.message || error});
 });
 
