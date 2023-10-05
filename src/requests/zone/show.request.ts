@@ -14,8 +14,6 @@ export class ShowRequest {
 
             const zone = items.find((item: string) => +item.split(',')[0] === +req.params.id);
 
-            console.log('+++++++', zone)
-
             zone ? res.status(200).json(this.collectZoneData(zone)) : res.status(404).json({message: `Nothing found with id - ${+req.params.id}`})
         });
     }
