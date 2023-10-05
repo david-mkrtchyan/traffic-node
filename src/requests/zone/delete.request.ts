@@ -12,9 +12,11 @@ export class DeleteRequest {
 
             const items = data.split('\n').filter((item: string) => item);
 
-            console.log(items)
+            let output: any = items.filter((item: string) => +item.split(',')[0] !== +req.params.id);
 
-            const output = items.filter((item: string) => +item[0] !== +req.params.id).join("\n");
+            output[output.length - 1] = output[output.length - 1] + "\n";
+
+            output = output.join("\n")
 
             fs.writeFileSync('db.csv', output);
 

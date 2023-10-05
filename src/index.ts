@@ -3,9 +3,14 @@ import bodyParser from 'body-parser'
 import { router } from './routes';
 import morgan from 'morgan';
 import {ValidationError} from "joi";
+import cors from 'cors';
 
 const app: Application = express();
 const port = process.env.PORT || 3200;
+
+app.use(cors({
+    origin: '*'
+}));
 
 app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
