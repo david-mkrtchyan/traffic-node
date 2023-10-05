@@ -29,8 +29,6 @@ export class IndexRequest {
             return;
         }
 
-        console.log('++++', rows)
-
         rows.forEach(row => {
             const result: any = {};
             this.columns.map((item: string, index: number) => result[item] = row[index])
