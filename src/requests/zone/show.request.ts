@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
-import {ZoneInterface} from "../../interfaces";
 
 export class ShowRequest {
     public show(req: Request, res: Response, next: Function): void {
@@ -13,7 +12,9 @@ export class ShowRequest {
 
             const items = data.split('\n').filter((item: string) => item);
 
-            const zone = items.find((item: string) => +item[0] === +req.params.id);
+            const zone = items.find((item: string) => +item.split(',')[0] === +req.params.id);
+
+            console.log('+++++++', zone)
 
             zone ? res.status(200).json(this.collectZoneData(zone)) : res.status(404).json({message: `Nothing found with id - ${+req.params.id}`})
         });
